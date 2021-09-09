@@ -1,0 +1,87 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2021-09-09T00:18:09.058075+00:00",
+  "repo": "eckelcu/draft-eckel-edm-find-code",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWU5NzIwNDY3NTI=",
+      "title": "Add example of inline errata",
+      "url": "https://github.com/eckelcu/draft-eckel-edm-find-code/issues/1",
+      "state": "OPEN",
+      "author": "eckelcu",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "There are no inline-errata views for v3 era RFCs at this time.\r\nFor older RFCs, we have this: https://www.rfc-editor.org/rfc/inline-errata/rfc3261.html\r\n\r\n",
+      "createdAt": "2021-08-16T19:44:57Z",
+      "updatedAt": "2021-08-16T19:44:57Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 2,
+      "id": "MDU6SXNzdWU5NzIwNTk3NTc=",
+      "title": "Move repo to https://github.com/intarchboard",
+      "url": "https://github.com/eckelcu/draft-eckel-edm-find-code/issues/2",
+      "state": "OPEN",
+      "author": "eckelcu",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-08-16T20:04:50Z",
+      "updatedAt": "2021-08-16T20:04:50Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": []
+}
