@@ -9,12 +9,12 @@
 <meta content="
        Code related to existing IETF standards and ongoing standardization efforts may exist and be publicly accessible in many places. This document provides a set of practices to make it easier to identify and to find such code. 
     " name="description">
-<meta content="xml2rfc 3.9.1" name="generator">
+<meta content="xml2rfc 3.12.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-eckel-edm-find-code-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.9.1
-    Python 3.9.5
+  xml2rfc 3.12.0
+    Python 3.9.7
     appdirs 1.4.4
     ConfigArgParse 1.3
     google-i18n-address 2.5.0
@@ -22,13 +22,13 @@
     intervaltree 3.1.0
     Jinja2 2.11.3
     kitchen 1.2.6
-    lxml 4.6.3
+    lxml 4.6.5
     pycountry 20.7.3
-    pyflakes 2.3.0
+    pyflakes 2.3.1
     PyYAML 5.4.1
-    requests 2.25.1
+    requests 2.26.0
     setuptools 52.0.0
-    six 1.15.0
+    six 1.16.0
 -->
 <link href="draft-eckel-edm-find-code.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -197,7 +197,8 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-html {
+:root {
+  color-scheme: light dark;
   --background-color: #fff;
   --text-color: #222;
   --title-color: #191919;
@@ -207,20 +208,8 @@ html {
   --pilcrow-weak: #ddd;
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
   scrollbar-color: #bbb #eee;
-}
-@media (prefers-color-scheme: dark) {
-html {
-  --background-color: #121212;
-  --text-color: #f0f0f0;
-  --title-color: #fff;
-  --link-color: #4da4f0;
-  --highlight-color: #282828;
-  --line-color: #444;
-  --pilcrow-weak: #444;
-  --pilcrow-strong: #666;
-  scrollbar-color: #777 #333;
-}
 }
 body {
   max-width: 600px;
@@ -237,22 +226,22 @@ body {
 }
 
 /* headings */
-#title, h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: "Cabin Condensed", sans-serif;
   font-weight: 600;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-#title {
+h1#title {
   font-size: 32px;
   line-height: 40px;
   clear: both;
 }
-#title, #rfcnum {
+h1#title, h1#rfcnum {
   margin: 1.5em 0 0.2em;
 }
-#rfcnum + #title {
+h1#rfcnum + h1#title {
   margin: 0.2em 0;
 }
 
@@ -269,10 +258,15 @@ h4, h5, h6 {
 .author {
   padding-bottom: 0.3em;
 }
-#abstract+p, #abstract+p code, #abstract+p samp, #abstract+p tt {
+#abstract+p {
   font-size: 18px;
   line-height: 24px;
 }
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
 p {
   padding: 0;
   margin: 0.5em 0;
@@ -308,6 +302,10 @@ div {
 }
 svg {
   display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
 }
 .alignCenter.art-text {
   background-color: var(--highlight-color);
@@ -403,7 +401,13 @@ a.xref {
 /* Figures */
 tt, code, pre {
   background-color: var(--highlight-color);
-  font: 14px/22px 'Oxygen Mono', monospace;
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines */
+  line-height: 0;
 }
 pre {
   border: 1px solid var(--line-color);
@@ -429,17 +433,22 @@ figcaption, caption {
   text-align: left;
 }
 @media screen {
-  pre {
+  pre, svg {
     display: inline-block;
     overflow-x: auto;
+  }
+  pre {
     max-width: 100%;
     width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
   }
   figure pre {
     display: block;
     width: calc(100% - 25px);
   }
-  pre + .pilcrow {
+  pre + .pilcrow, svg + .pilcrow {
     display: inline-block;
     vertical-align: text-bottom;
     padding-bottom: 8px;
@@ -453,9 +462,6 @@ aside, blockquote {
   font-style: italic;
 }
 blockquote {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
   margin: 1em 0;
 }
 cite {
@@ -626,36 +632,8 @@ hr {
 }
 
 /* index */
-.index ul {
-  margin: 0 0 0 1em;
-  padding: 0;
-  list-style: none;
-}
-.index ul ul {
-  margin: 0;
-}
-.index li {
-  margin: 0;
-  text-indent: -2em;
-  padding-left: 2em;
-  padding-bottom: 5px;
-}
-.indexIndex {
-  margin: 0.5em 0 1em;
-}
-.index a {
-  font-weight: 700;
-}
-/* make the index two-column on all but the smallest screens */
-@media (min-width: 500px) {
-  .index ul {
-    column-count: 2;
-    column-gap: 20px;
-  }
-  .index ul ul {
-    column-count: 1;
-    column-gap: 0;
-  }
+#rfc\.index\.index + ul {
+  margin-left: 0;
 }
 
 /* authors */
@@ -998,6 +976,34 @@ address div.right {
   font-weight: bold;
   font-size: 0.9em;
 }
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+/* Trick: a prefix match works because only black and white are allowed */
+svg [stroke="black"], svg [stroke^="#000"] {
+  stroke: var(--text-color);
+}
+svg [stroke="white"], svg [stroke^="#fff"] {
+  stroke: var(--background-color);
+}
+svg [fill="black"], svg [fill^="#000"], svg :not([fill]) {
+  fill: var(--text-color);
+}
+svg [stroke="fill"], svg [fill^="#fff"] {
+  fill: var(--background-color);
+}
+}
 </style>
 
 </head>
@@ -1006,11 +1012,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">find-code</td>
-<td class="right">July 2021</td>
+<td class="right">January 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Eckel</td>
-<td class="center">Expires 10 January 2022</td>
+<td class="center">Expires 23 July 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1023,12 +1029,12 @@ address div.right {
 <dd class="internet-draft">draft-eckel-edm-find-code-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-07-09" class="published">9 July 2021</time>
+<time datetime="2022-01-19" class="published">19 January 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-01-10">10 January 2022</time></dd>
+<dd class="expires"><time datetime="2022-07-23">23 July 2022</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1073,7 +1079,7 @@ address div.right {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 January 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1082,7 +1088,7 @@ address div.right {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2021 IETF Trust and the persons identified as the
+            Copyright (c) 2022 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1091,9 +1097,9 @@ address div.right {
             publication of this document. Please review these documents
             carefully, as they describe your rights and restrictions with
             respect to this document. Code Components extracted from this
-            document must include Simplified BSD License text as described in
+            document must include Revised BSD License text as described in
             Section 4.e of the Trust Legal Provisions and are provided without
-            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="toc">
@@ -1107,35 +1113,35 @@ address div.right {
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-existing-ietf-processes-and" class="xref">Existing IETF Processes and Procedures</a></p>
-<ul class="toc ulEmpty compact ulBare">
-<li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.1">
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
                 <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-implementation-status" class="xref">Implementation Status</a></p>
 </li>
-              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.2">
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
                 <p id="section-toc.1-1.2.2.2.1" class="keepWithNext"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-github" class="xref">GitHub</a></p>
 </li>
-              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.3">
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
                 <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-hackathon" class="xref">Hackathon</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-proposal" class="xref">Proposal</a></p>
-<ul class="toc ulEmpty compact ulBare">
-<li class="toc ulEmpty compact ulBare" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-datatracker" class="xref">Datatracker</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-github-repository" class="xref">GitHub Repository</a></p>
 </li>
-              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-github-repository" class="xref">GitHub Repository</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-readme" class="xref">README</a></p>
 </li>
-              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-readme" class="xref">README</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-datatracker" class="xref">Datatracker</a></p>
 </li>
-              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.3.2.4">
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
                 <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="xref">3.4</a>.  <a href="#name-implementation-status-2" class="xref">Implementation Status</a></p>
 </li>
-              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.3.2.5">
-                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="xref">3.5</a>.  <a href="#name-errata" class="xref">Errata</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="xref">3.5</a>.  <a href="#name-inline-errata" class="xref">Inline Errata</a></p>
 </li>
             </ul>
 </li>
@@ -1207,30 +1213,30 @@ address div.right {
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-proposal" class="section-name selfRef">Proposal</a>
       </h2>
 <p id="section-3-1">This section specifies a set of practices that use existing mechanisms to associate code with an I-D or RFC. Following these practices makes it easier for others working with the I-D or RFC to find such code.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<div id="datatracker">
-<section id="section-3.1">
-        <h3 id="name-datatracker">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-datatracker" class="section-name selfRef">Datatracker</a>
-        </h3>
-<p id="section-3.1-1">The IETF <a href="https://datatracker.ietf.org/">Datatracker</a> supports the association of <code>Additional Resources</code> with a <code>Document</code> (e.g., an I-D or RFC) or a <code>Group</code> (e.g., <a href="https://datatracker.ietf.org/wg/">working group</a>, <a href="https://datatracker.ietf.org/rg/">research group</a>). An <code>Additional Resource</code> can be, among others things, a <a href="https://docs.github.com/en/organizations">GitHub Organization</a> or a <a href="https://docs.github.com/en/github/getting-started-with-github/quickstart/create-a-repo#create-a-repository">GitHub Repository</a>.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">It is recommended that this Datatracker mechanism be used to associate an appropriate GitHub organization and repository with an I-D. Ideally these are setup per the guidelines in <span>[<a href="#RFC8874" class="xref">RFC8874</a>]</span> and <span>[<a href="#RFC8875" class="xref">RFC8875</a>]</span>. In the event the working group or research group is not using GitHub, or the I-D has not yet been adopted by the group, another GitHub organization or repository may be used instead. A GitHub organization is associated with the I-D using the <code>github_org</code> tag. A GitHub repository is associated with the I-D using the <code>github_repo</code> tag.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="github-repository">
-<section id="section-3.2">
+<section id="section-3.1">
         <h3 id="name-github-repository">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-github-repository" class="section-name selfRef">GitHub Repository</a>
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-github-repository" class="section-name selfRef">GitHub Repository</a>
         </h3>
-<p id="section-3.2-1">A GitHub repository should be setup for an I-D as outlined in <a href="https://www.rfc-editor.org/rfc/rfc8874.html#section-3.2">Section 3.2 of RFC 8874</a>. The <a href="https://github.com/martinthomson/i-d-template">i-d-template</a> can be used to get started. It provides useful features, including integration with the Datatracker. The resulting repository should be associated with the I-D using the Datatracker <code>github_repo</code> tag. This should be done even if GitHub is not to be used to collaborate on the I-D.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2">A GitHub repository typically exists within a GitHub organization. This is not always the case (e.g., a repository in a personal GitHub account), and even when it is, the GitHub organization may not be appropriate to associated with the I-D. In the event there is an appropriate GitHub organization, it should be associated with the I-D using the Datatracker <code>github_org</code> tag.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">A <a href="https://docs.github.com/en/github/getting-started-with-github/quickstart/create-a-repo#create-a-repository">GitHub repository</a> should be setup for an I-D as outlined in <a href="https://www.rfc-editor.org/rfc/rfc8874.html#section-3.2">Section 3.2 of RFC 8874</a>. The <a href="https://github.com/martinthomson/i-d-template">i-d-template</a> can be used to get started. It provides useful features, including integration with the <a href="#datatracker" class="xref">Section 3.3</a>. The resulting repository should be associated with the I-D using the Datatracker <code>github_repo</code> tag. This should be done even if GitHub is not to be used to collaborate on the I-D.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">A GitHub repository typically exists within a <a href="https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/about-organizations">GitHub organization</a>. This is not always the case (e.g., a repository in a personal GitHub account), and even when it is, the GitHub organization may not be appropriate to associated with the I-D. In the event there is an appropriate GitHub organization, it should be associated with the I-D using the Datatracker <code>github_org</code> tag.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="readme">
-<section id="section-3.3">
+<section id="section-3.2">
         <h3 id="name-readme">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-readme" class="section-name selfRef">README</a>
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-readme" class="section-name selfRef">README</a>
         </h3>
-<p id="section-3.3-1">The GitHub repository associated with the I-D should include a <a href="https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-readmes">README</a>. The README should include information about the repository, whether or not it is being used to collaborate on the I-D, and any code associated with the I-D. The latter may be achieved by including direct links to such code or by including links to other resources that include information about such code. These resources may be a file, folder, or <a href="https://docs.github.com/en/communities/">wiki</a> within the GitHub repository or the GitHub organization associated with the I-D. The QUIC WG's <a href="https://github.com/quicwg/base-drafts/wiki/Implementations">Implementations wiki</a> is an example.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">The GitHub repository associated with the I-D should include a <a href="https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-readmes">README</a>. The README should include information about the repository, whether or not it is being used to collaborate on the I-D, and any code associated with the I-D. The latter may be achieved by including direct links to such code or by including links to other resources that include information about such code. These resources may be a file, folder, or <a href="https://docs.github.com/en/communities/">wiki</a> within the GitHub repository or the GitHub organization associated with the I-D. The QUIC WG's <a href="https://github.com/quicwg/base-drafts/wiki/Implementations">Implementations wiki</a> is an example.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="datatracker">
+<section id="section-3.3">
+        <h3 id="name-datatracker">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-datatracker" class="section-name selfRef">Datatracker</a>
+        </h3>
+<p id="section-3.3-1">The IETF <a href="https://datatracker.ietf.org/">Datatracker</a> supports the association of <code>Additional Resources</code> with a <code>Document</code> (e.g., an I-D or RFC) or a <code>Group</code> (e.g., <a href="https://datatracker.ietf.org/wg/">working group</a>, <a href="https://datatracker.ietf.org/rg/">research group</a>). An <code>Additional Resource</code> can be, among others things, a GitHub organization] or a GitHub repository].<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">It is recommended that this Datatracker mechanism be used to associate an appropriate GitHub organization and repository with an I-D. Ideally these are setup per the guidelines in <span>[<a href="#RFC8874" class="xref">RFC8874</a>]</span> and <span>[<a href="#RFC8875" class="xref">RFC8875</a>]</span>. In the event the working group or research group is not using GitHub, or the I-D has not yet been adopted by the group, another GitHub organization or repository may be used instead. A GitHub organization is associated with the I-D using the <code>github_org</code> tag. A GitHub repository is associated with the I-D using the <code>github_repo</code> tag.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="implementation-status-1">
@@ -1241,12 +1247,12 @@ address div.right {
 <p id="section-3.4-1">An Implementation Status section, as defined <span>[<a href="#RFC7942" class="xref">RFC7942</a>]</span>, should be added to an I-D. It should include any GitHub organization or GitHub repository associated with the I-D.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="errata">
+<div id="inline-errata">
 <section id="section-3.5">
-        <h3 id="name-errata">
-<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-errata" class="section-name selfRef">Errata</a>
+        <h3 id="name-inline-errata">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-inline-errata" class="section-name selfRef">Inline Errata</a>
         </h3>
-<p id="section-3.5-1">In the event an I-D becomes an RFC, people looking for code are less likely to reference the Datatracker, and the Implementation Status section is likely to have been removed. Any GitHub organization or GitHub repository associated with the RFC should be made available as <a href="https://mailarchive.ietf.org/arch/msg/edm/ku3cd5xTla7tbtohVYWWW7-XTIg/">inline errata</a>.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.5-1">In the event an I-D becomes an RFC, people looking for code are less likely to reference the Datatracker, and the Implementation Status section may have been removed or require updates. Any GitHub organization or GitHub repository associated with the RFC should be made available as <a href="https://mailarchive.ietf.org/arch/msg/edm/ku3cd5xTla7tbtohVYWWW7-XTIg/">inline errata</a>. An example of this is <a href="https://www.rfc-editor.org/rfc/inline-errata/rfc3261.html">RFC 3261 with inline errata</a>. Inline errata views for v3 era RFCs are not supported at this time.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1282,23 +1288,23 @@ address div.right {
 <dl class="references">
 <dt id="I-D.ietf-shmoo-hackathon">[I-D.ietf-shmoo-hackathon]</dt>
       <dd>
-<span class="refAuthor">Eckel, C.</span>, <span class="refTitle">"Running an IETF Hackathon"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-shmoo-hackathon-01</span>, <time datetime="2021-07-09" class="refDate">9 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-shmoo-hackathon-01">https://datatracker.ietf.org/doc/html/draft-ietf-shmoo-hackathon-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Eckel, C.</span>, <span class="refTitle">"Running an IETF Hackathon"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-shmoo-hackathon-04</span>, <time datetime="2022-01-19" class="refDate">19 January 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-shmoo-hackathon-04">https://datatracker.ietf.org/doc/html/draft-ietf-shmoo-hackathon-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC1264">[RFC1264]</dt>
       <dd>
-<span class="refAuthor">Hinden, R.</span>, <span class="refTitle">"Internet Engineering Task Force Internet Routing Protocol Standardization Criteria"</span>, <span class="seriesInfo">RFC 1264</span>, <span class="seriesInfo">DOI 10.17487/RFC1264</span>, <time datetime="1991-10" class="refDate">October 1991</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc1264">https://datatracker.ietf.org/doc/html/rfc1264</a>&gt;</span>. </dd>
+<span class="refAuthor">Hinden, R.</span>, <span class="refTitle">"Internet Engineering Task Force Internet Routing Protocol Standardization Criteria"</span>, <span class="seriesInfo">RFC 1264</span>, <span class="seriesInfo">DOI 10.17487/RFC1264</span>, <time datetime="1991-10" class="refDate">October 1991</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc1264">https://www.rfc-editor.org/rfc/rfc1264</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7942">[RFC7942]</dt>
       <dd>
-<span class="refAuthor">Sheffer, Y.</span> and <span class="refAuthor">A. Farrel</span>, <span class="refTitle">"Improving Awareness of Running Code: The Implementation Status Section"</span>, <span class="seriesInfo">BCP 205</span>, <span class="seriesInfo">RFC 7942</span>, <span class="seriesInfo">DOI 10.17487/RFC7942</span>, <time datetime="2016-07" class="refDate">July 2016</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7942">https://datatracker.ietf.org/doc/html/rfc7942</a>&gt;</span>. </dd>
+<span class="refAuthor">Sheffer, Y.</span> and <span class="refAuthor">A. Farrel</span>, <span class="refTitle">"Improving Awareness of Running Code: The Implementation Status Section"</span>, <span class="seriesInfo">BCP 205</span>, <span class="seriesInfo">RFC 7942</span>, <span class="seriesInfo">DOI 10.17487/RFC7942</span>, <time datetime="2016-07" class="refDate">July 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7942">https://www.rfc-editor.org/rfc/rfc7942</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8874">[RFC8874]</dt>
       <dd>
-<span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">B. Stark</span>, <span class="refTitle">"Working Group GitHub Usage Guidance"</span>, <span class="seriesInfo">RFC 8874</span>, <span class="seriesInfo">DOI 10.17487/RFC8874</span>, <time datetime="2020-08" class="refDate">August 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8874">https://datatracker.ietf.org/doc/html/rfc8874</a>&gt;</span>. </dd>
+<span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">B. Stark</span>, <span class="refTitle">"Working Group GitHub Usage Guidance"</span>, <span class="seriesInfo">RFC 8874</span>, <span class="seriesInfo">DOI 10.17487/RFC8874</span>, <time datetime="2020-08" class="refDate">August 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8874">https://www.rfc-editor.org/rfc/rfc8874</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8875">[RFC8875]</dt>
     <dd>
-<span class="refAuthor">Cooper, A.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Working Group GitHub Administration"</span>, <span class="seriesInfo">RFC 8875</span>, <span class="seriesInfo">DOI 10.17487/RFC8875</span>, <time datetime="2020-08" class="refDate">August 2020</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8875">https://datatracker.ietf.org/doc/html/rfc8875</a>&gt;</span>. </dd>
+<span class="refAuthor">Cooper, A.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Working Group GitHub Administration"</span>, <span class="seriesInfo">RFC 8875</span>, <span class="seriesInfo">DOI 10.17487/RFC8875</span>, <time datetime="2020-08" class="refDate">August 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8875">https://www.rfc-editor.org/rfc/rfc8875</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
