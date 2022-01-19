@@ -173,10 +173,10 @@ Table of Contents
    (https://www.rfc-editor.org/rfc/rfc8874.html#section-3.2).  The
    i-d-template (https://github.com/martinthomson/i-d-template) can be
    used to get started.  It provides useful features, including
-   integration with the Section 3.3.  The resulting repository should be
-   associated with the I-D using the Datatracker github_repo tag.  This
-   should be done even if GitHub is not to be used to collaborate on the
-   I-D.
+   integration with the Datatracker (see Section 3.3).  The resulting
+   repository should be associated with the I-D using the Datatracker
+   github_repo tag.  This should be done even if GitHub is not to be
+   used to collaborate on the I-D.
 
    A GitHub repository typically exists within a GitHub organization
    (https://docs.github.com/en/organizations/collaborating-with-groups-
