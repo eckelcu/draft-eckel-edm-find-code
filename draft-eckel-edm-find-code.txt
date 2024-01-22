@@ -4,8 +4,8 @@
 
 edm                                                             C. Eckel
 Internet-Draft                                             Cisco Systems
-Intended status: Best Current Practice                      26 June 2023
-Expires: 28 December 2023
+Intended status: Best Current Practice                   22 January 2024
+Expires: 25 July 2024
 
 
              Find Code Related to an Internet-Draft or RFC
@@ -45,11 +45,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 December 2023.
+   This Internet-Draft will expire on 25 July 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -317,6 +317,16 @@ Table of Contents
          annotations.research.icann.org/) for RFCs related to DNS has
          been sponsored by ICANN.
 
+   *  The GitHub service, a GitHub repository associated with an I-D or
+      RFC as recommended in Section 3.1 (Section 3.1), and code
+      referenced in a README as recommended in Section 3.2
+      (Section 3.2), may get deleted or otherwise become unavailable.
+
+      -  Collaboration with a code archiving service or creation of an
+         IETF code archiving service could be helpful.  Such a service
+         need not have full code history, i.e., snapshots could be
+         sufficient.
+
 4.  Implementation Status
 
    The practices proposed in this document are followed by [RFC9311].
@@ -385,6 +395,9 @@ Acknowledgments
    Yaron Sheffer highlighted limitations with the current errata process
    and the existence of the ICANN project for collaborative annotations
    (https://rfc-annotations.research.icann.org/) of RFCs related to DNS.
+
+   Benson Muite highlighted the possibility of repositories getting
+   deleted and the potential value of an archiving solution.
 
    Many other people shared thoughts on the email lists for WG Chairs
    (https://mailarchive.ietf.org/arch/browse/wgchairs/) and EDM
