@@ -318,9 +318,8 @@ Table of Contents
          been sponsored by ICANN.
 
    *  The GitHub service, a GitHub repository associated with an I-D or
-      RFC (see GitHub Repository (Section 3.1)), and code referenced in
-      a README (see Section 3.2), may get deleted or otherwise become
-      unavailable.
+      RFC, or code referenced in a README (see Section 3.2), may get
+      deleted or otherwise become unavailable.
 
       -  Collaboration with a code archiving service or creation of an
          IETF code archiving service could be helpful.  Such a service
